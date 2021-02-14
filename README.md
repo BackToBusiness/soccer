@@ -35,6 +35,15 @@ $ npm install
 ## Running the app
 
 ```bash
+#To run Postgres and PgAdmin4
+$ docker-compose up
+
+#Access PgAdmin4
+http:localhost:5050/browser
+
+#create a database - "soccer"
+open pgAdmin4 and type "create database soccer"
+
 # development
 $ npm run start
 
@@ -43,9 +52,6 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
-
-#To run Postgres and PgAdmin4
-$ docker-compose up
 ```
 
 ## Test
