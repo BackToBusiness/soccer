@@ -43,6 +43,9 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+#To run Postgres and PgAdmin4
+$ docker-compose up
 ```
 
 ## Test
