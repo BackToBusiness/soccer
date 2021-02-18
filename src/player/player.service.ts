@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResultCreatedDto } from './dto/result-created.dto';
 import { Repository } from 'typeorm';
@@ -6,18 +6,19 @@ import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Player } from './entities/player.entity';
 import { PlayerRepository } from './player.repository';
+import { FilterPlayerDto } from './dto/filter-player.dto';
 
 @Injectable()
 export class PlayerService {
 
-  constructor(@InjectRepository(PlayerRepository) private playerRepository: Repository<Player>) { }
+  constructor(@InjectRepository(PlayerRepository) private playerRepository: PlayerRepository) { }
 
   async create(data: CreatePlayerDto): Promise<ResultCreatedDto> {
     let player = new Player()
     player.name = data.name
     player.age = data.age
     return this.playerRepository.save(player)
-      .then((result) => {
+      .then(() => {
         return <ResultCreatedDto>{
           status: true,
           mensagem: "Player has been created"
@@ -35,15 +36,45 @@ export class PlayerService {
     return this.playerRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} player`;
+  async findPlayersByCriteria(filterPlayerDto: FilterPlayerDto): Promise<Player[]> {
+    return this.playerRepository.getPlayersByCriteria(filterPlayerDto);
   }
 
-  update(id: number, updatePlayerDto: UpdatePlayerDto) {
-    return `This action updates a #${id} player`;
+  async findOne(id: string): Promise<Player> {
+    const player = await this.playerRepository.findOne(id)
+    if (!player) {
+      throw new NotFoundException(`A player with ID ${id} not found`)
+    }
+    return player
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} player`;
+  async update(uuid: string, updatePlayerDto: UpdatePlayerDto): Promise<any> {
+    const player = await this.playerRepository.findOne(uuid)
+    if (!player) {
+      throw new NotFoundException(`A player with ID ${uuid} not found`)
+    }
+    updatePlayerDto.updatedAt = new Date()
+    return this.playerRepository.update(uuid, updatePlayerDto)
+  }
+
+  async updateAge(id: string, age: number): Promise<Player> {
+    const player = await this.findOne(id)
+    console.log(player);
+    player.age = age
+    player.updatedAt = new Date()
+    return player.save()
+  }
+
+  async delete(id: string): Promise<void> {
+    const player = await this.playerRepository.delete(id)
+    if (player.affected === 0) {
+      throw new NotFoundException(`A player with ID ${id} not found`)
+    }
+  }
+
+  async buscaNome(nome: string): Promise<Player[]> {
+    return this.playerRepository.find({
+      where: [{ "name": nome }]
+    });
   }
 }
