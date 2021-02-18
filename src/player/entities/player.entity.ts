@@ -3,10 +3,11 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, U
 
 @Entity()
 export class Player extends BaseEntity {
+  
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false, type: "varchar", default: 0.0 })
+  @Column({ nullable: false, type: "varchar" })
   name!: string;
 
   @Column({ nullable: false, type: "float", default: 0.0 })
