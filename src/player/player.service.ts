@@ -4,7 +4,7 @@ import { ResultCreatedDto } from './dto/result-created.dto';
 import { Repository } from 'typeorm';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
-import { Player } from './entities/player.entity';
+import { Player } from './entity/player.entity';
 import { PlayerRepository } from './player.repository';
 import { FilterPlayerDto } from './dto/filter-player.dto';
 

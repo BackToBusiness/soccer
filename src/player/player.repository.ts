@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { FilterPlayerDto } from './dto/filter-player.dto';
-import { Player } from './entities/player.entity';
+import { Player } from './entity/player.entity';
 
 @EntityRepository(Player)
 export class PlayerRepository extends Repository<Player>{

@@ -3,7 +3,7 @@ import { PlayerService } from './player.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { ResultCreatedDto } from './dto/result-created.dto';
-import { Player } from './entities/player.entity';
+import { Player } from './entity/player.entity';
 import { FilterPlayerDto } from './dto/filter-player.dto';
 
 @Controller('players')
@@ -22,12 +22,12 @@ export class PlayerController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Player> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Player> {
     return this.playerService.findOne(id);
   }
 
-  @Get()
-  findPlayersByCriteria(@Query('filter') filterPlayerDto: FilterPlayerDto): Promise<Player[]> {
+  @Get('/search/filters')
+  findPlayersByCriteria(@Query() filterPlayerDto: FilterPlayerDto): Promise<Player[]> {
     return this.playerService.findPlayersByCriteria(filterPlayerDto)
   }
 
