@@ -1,11 +1,16 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 
 
 @Entity()
 export class Player extends BaseEntity {
-  
+
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  uuid: string;
+
+  @OneToOne(() => User, user => user.uuid)
+  @JoinColumn()
+  user: User
 
   @Column({ nullable: false, type: "varchar" })
   name!: string;

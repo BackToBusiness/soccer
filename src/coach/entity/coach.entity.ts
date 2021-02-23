@@ -1,10 +1,16 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Coach extends BaseEntity {
 
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    uuid: string;
+
+    @Column({ nullable: false })
+    @OneToOne(() => User)
+    @JoinColumn()
+    userUUID: string
 
     @Column({ nullable: false, type: "varchar" })
     name: string

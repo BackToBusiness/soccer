@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, Patch, ParseIntPipe, Query, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Patch, ParseIntPipe, Query, ParseUUIDPipe, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
-import { ResultCreatedDto } from './dto/result-created.dto';
+import { ResultCreatedDto } from '../common/dto/result-created.dto';
 import { Player } from './entity/player.entity';
 import { FilterPlayerDto } from './dto/filter-player.dto';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('players')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) { }

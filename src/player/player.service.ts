@@ -1,20 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ResultCreatedDto } from './dto/result-created.dto';
-import { Repository } from 'typeorm';
+import { ResultCreatedDto } from '../common/dto/result-created.dto';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Player } from './entity/player.entity';
 import { PlayerRepository } from './player.repository';
 import { FilterPlayerDto } from './dto/filter-player.dto';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class PlayerService {
 
-  constructor(@InjectRepository(PlayerRepository) private playerRepository: PlayerRepository) { }
+  constructor(
+    @InjectRepository(PlayerRepository) private readonly playerRepository: PlayerRepository
+  ) { }
 
   async create(data: CreatePlayerDto): Promise<ResultCreatedDto> {
     let player = new Player()
+    let user = new User()
+    user.uuid = data.userUUID
+    player.user = user
     player.name = data.name
     player.age = data.age
     return this.playerRepository.save(player)
@@ -32,8 +37,8 @@ export class PlayerService {
       })
   }
 
-  findAll() {
-    return this.playerRepository.find();
+  async findAll(): Promise<Player[]> {
+    return this.playerRepository.find({ relations: ["user"] });
   }
 
   async findPlayersByCriteria(filterPlayerDto: FilterPlayerDto): Promise<Player[]> {
@@ -59,7 +64,6 @@ export class PlayerService {
 
   async updateAge(id: string, age: number): Promise<Player> {
     const player = await this.findOne(id)
-    console.log(player);
     player.age = age
     player.updatedAt = new Date()
     return player.save()
