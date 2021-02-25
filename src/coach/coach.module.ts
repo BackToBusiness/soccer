@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { CoachController } from './coach.controller';
 import { CoachService } from './coach.service';
-import { CoachRepository } from './coach.repository';
+import { CoachController } from './coach.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoachRepository } from './coach.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CoachRepository])],

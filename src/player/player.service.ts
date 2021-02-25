@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ResultCreatedDto } from '../common/dto/result-created.dto';
+import { ResultCreatedDto } from '../common/result-created.interface';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Player } from './entity/player.entity';
@@ -11,9 +11,7 @@ import { User } from '../user/entities/user.entity';
 @Injectable()
 export class PlayerService {
 
-  constructor(
-    @InjectRepository(PlayerRepository) private readonly playerRepository: PlayerRepository
-  ) { }
+  constructor(@InjectRepository(PlayerRepository) private readonly playerRepository: PlayerRepository) { }
 
   async create(data: CreatePlayerDto): Promise<ResultCreatedDto> {
     let player = new Player()

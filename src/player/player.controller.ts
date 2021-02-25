@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Put, Param, Delete, Patch, ParseIntPipe, Q
 import { PlayerService } from './player.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
-import { ResultCreatedDto } from '../common/dto/result-created.dto';
+import { ResultCreatedDto } from '../common/result-created.interface';
 import { Player } from './entity/player.entity';
 import { FilterPlayerDto } from './dto/filter-player.dto';
 

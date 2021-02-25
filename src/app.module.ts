@@ -6,6 +6,7 @@ import { HealthModule } from './health/health.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './configs/typeorm.config';
 import { CoachModule } from './coach/coach.module';
+import { TeamModule } from './team/team.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -14,7 +15,8 @@ import { UserModule } from './user/user.module';
     HealthModule,
     TypeOrmModule.forRoot(typeOrmConfig),
     CoachModule,
-    UserModule
+    UserModule,
+    TeamModule
   ],
   controllers: [AppController],
   providers: [AppService],
