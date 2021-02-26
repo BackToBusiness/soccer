@@ -1,9 +1,9 @@
 import { Team } from 'src/team/entities/team.entity';
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 
 @Entity()
-export class Coach extends BaseEntity {
+export class Coach {
 
     @PrimaryGeneratedColumn('uuid')
     uuid: string;

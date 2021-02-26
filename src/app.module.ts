@@ -8,6 +8,7 @@ import { typeOrmConfig } from './configs/typeorm.config';
 import { CoachModule } from './coach/coach.module';
 import { TeamModule } from './team/team.module';
 import { UserModule } from './user/user.module';
+import { TechnicalTeamModule } from './technical-team/technical-team.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRoot(typeOrmConfig),
     CoachModule,
     UserModule,
-    TeamModule
+    TeamModule,
+    TechnicalTeamModule
   ],
   controllers: [AppController],
   providers: [AppService],

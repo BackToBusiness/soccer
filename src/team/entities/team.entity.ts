@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Division } from "../team.enum";
 import { Player } from "../../player/entity/player.entity";
 import { Coach } from '../../coach/entities/coach.entity';
