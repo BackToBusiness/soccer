@@ -16,19 +16,24 @@ export class UserService {
   async create(data: CreateUserDto): Promise<void> {
     let user = new User()
     user.username = data.username
-    user.password = bcrypt.hashSync(data.password, 8)
+    const salt = await bcrypt.genSalt()
+    user.password = await this.hashPassword(data.password, salt)
     user.email = data.email
 
     try {
       await this.userRepository.save(user)
     } catch (error) {
-      if(error.code === STATUS_CODE_CONFLICT){
+      if (error.code === STATUS_CODE_CONFLICT) {
         throw new ConflictException({
           statusCode: 409,
           message: error.detail
         })
       }
     }
+  }
+
+  private hashPassword(password: string, salt: string): Promise<string> {
+    return bcrypt.hash(password, salt)
   }
 
   async findAll(): Promise<User[]> {
