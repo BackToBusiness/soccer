@@ -1,0 +1,1 @@
+export const STATUS_CODE_CONFLICT = '23505'

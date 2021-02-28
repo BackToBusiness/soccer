@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ResultCreatedDto } from '../common/result-created.interface';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './user.repository';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { STATUS_CODE_CONFLICT } from '../player/user.constants.exception';
 
 //https://www.npmjs.com/package/bcrypt
 
@@ -14,24 +13,22 @@ export class UserService {
 
   constructor(@InjectRepository(UserRepository) private readonly userRepository: UserRepository) { }
 
-  async create(data: CreateUserDto): Promise<ResultCreatedDto> {
+  async create(data: CreateUserDto): Promise<void> {
     let user = new User()
     user.username = data.username
     user.password = bcrypt.hashSync(data.password, 8)
     user.email = data.email
-    return this.userRepository.save(user)
-      .then(() => {
-        return <ResultCreatedDto>{
-          status: true,
-          mensagem: "User has been created"
-        }
-      })
-      .catch((error) => {
-        return <ResultCreatedDto>{
-          status: false,
-          mensagem: `ERROR - Player was not created - \n ${error}`
-        }
-      })
+
+    try {
+      await this.userRepository.save(user)
+    } catch (error) {
+      if(error.code === STATUS_CODE_CONFLICT){
+        throw new ConflictException({
+          statusCode: 409,
+          message: error.detail
+        })
+      }
+    }
   }
 
   async findAll(): Promise<User[]> {
@@ -42,7 +39,7 @@ export class UserService {
     return this.userRepository.findOneOrFail(uuid);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  update(id: number) {
     return `This action updates a #${id} user`;
   }
 
