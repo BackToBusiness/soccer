@@ -1,8 +1,9 @@
 import { Exclude } from "class-transformer";
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Unique, BaseEntity } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
 
     @PrimaryGeneratedColumn('uuid')
     uuid: string
@@ -18,5 +19,14 @@ export class User {
     @Unique(['email'])
     @Column({ nullable: false })
     email: string
+
+    @Exclude()
+    @Column()
+    salt: string
+
+    async validatePassword(password: string): Promise<boolean> {
+        const hash = await bcrypt.hash(password, this.salt)
+        return hash === this.password
+    }
 
 }
