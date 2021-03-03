@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { ConflictException } from '@nestjs/common';
-import { STATUS_CODE_CONFLICT } from '../player/user.constants.exception';
+import { STATUS_CODE_CONFLICT } from './exceptions/user.constants.exception';
 import * as bcrypt from 'bcrypt';
 import { AuthCredentialsDto } from './auth/dto/auth-credentials.dto';
 import { CreateUserDto } from './dto/create-user.dto';

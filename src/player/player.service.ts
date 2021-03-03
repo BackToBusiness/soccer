@@ -36,7 +36,7 @@ export class PlayerService {
   }
 
   async findAll(): Promise<Player[]> {
-    return this.playerRepository.find({ relations: ["user"] });
+    return this.playerRepository.find();
   }
 
   async findPlayersByCriteria(filterPlayerDto: FilterPlayerDto): Promise<Player[]> {

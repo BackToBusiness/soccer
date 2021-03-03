@@ -9,7 +9,7 @@ export class Player extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
 
-  @OneToOne(() => User, user => user.uuid, { eager: false })
+  @OneToOne(() => User, user => user.uuid, { eager: true })
   @JoinColumn()
   user: User
 
